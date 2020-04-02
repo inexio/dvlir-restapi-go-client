@@ -1,3 +1,3 @@
-IPAddress: "192.168.178.69"
-Password: "QK7SK4aw"
-Firmware: <Path of your firmware file>
+IPAddress: <Your DvLIR IP address>
+Password: <Your password>
+Firmware: <Name of your firmware file>
