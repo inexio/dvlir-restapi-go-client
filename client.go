@@ -20,7 +20,7 @@ clientData - Contains data of a client
 type clientData struct {
 	ipAddress string
 	password  string
-	sessionId string
+	sessionID string
 	resty     *resty.Client
 }
 
@@ -51,7 +51,7 @@ func (d *DvLIRClient) get(path string, body string, pwd string) (*resty.Response
 	}
 
 	if response.StatusCode() != 200 {
-		return nil, errors.Wrap(getHttpError(response), "http status code != 200")
+		return nil, errors.Wrap(getHTTPError(response), "http status code != 200")
 	}
 
 	return response, nil
@@ -87,9 +87,9 @@ func (d *DvLIRClient) post(path string, body string, header, queryParams map[str
 //Http error handling
 
 /*
-HttpError - Represents an http error returned by the api.
+HTTPError - Represents an http error returned by the api.
 */
-type HttpError struct {
+type HTTPError struct {
 	StatusCode int
 	Status     string
 	Body       *ErrorResponse
@@ -103,7 +103,7 @@ type ErrorResponse struct {
 	Status  int    `json:"status"`
 }
 
-func (h HttpError) Error() string {
+func (h HTTPError) Error() string {
 	msg := "http error: status code: " + strconv.Itoa(h.StatusCode) + " // status: " + h.Status
 	if h.Body != nil {
 		msg += " // message: " + h.Body.Message
@@ -111,8 +111,8 @@ func (h HttpError) Error() string {
 	return msg
 }
 
-func getHttpError(response *resty.Response) error {
-	httpError := HttpError{
+func getHTTPError(response *resty.Response) error {
+	httpError := HTTPError{
 		StatusCode: response.StatusCode(),
 		Status:     response.Status(),
 	}

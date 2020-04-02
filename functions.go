@@ -51,7 +51,7 @@ func (d *DvLIRClient) Login() error {
 		return err
 	}
 
-	d.sessionId = res.String()
+	d.sessionID = res.String()
 
 	return err
 }
@@ -91,7 +91,7 @@ func (d *DvLIRClient) GetDataFile(lines int) (DataLines, error) {
 
 	linesE := url.QueryEscape(strconv.Itoa(lines))
 
-	path := "/daten.csv?sid=" + d.sessionId + "&lines=" + linesE
+	path := "/daten.csv?sid=" + d.sessionID + "&lines=" + linesE
 	f, err := d.get(path, "", "")
 	if err != nil {
 		return empty, errors.Wrap(err, "Error during GetDataFile request")
@@ -122,7 +122,7 @@ func (d *DvLIRClient) GetMomentaryValues() (MomentaryValues, error) {
 		return empty, &NotValidError{}
 	}
 
-	path := "/data.txt?sid=" + d.sessionId
+	path := "/data.txt?sid=" + d.sessionID
 	v, err := d.get(path, "", "")
 	if err != nil {
 		return empty, errors.Wrap(err, "Error during GetMomentaryValues request")
@@ -163,7 +163,7 @@ func (d *DvLIRClient) GetGeneralInformation() (GeneralInfo, error) {
 		return empty, &NotValidError{}
 	}
 
-	path := "/info.txt?sid=" + d.sessionId
+	path := "/info.txt?sid=" + d.sessionID
 	i, err := d.get(path, "", "")
 	if err != nil {
 		return empty, errors.Wrap(err, "Error during GetGeneralInformation request")
@@ -203,7 +203,7 @@ func (d *DvLIRClient) GetNetworkInformation() (NetworkInfo, error) {
 		return empty, &NotValidError{}
 	}
 
-	path := "/network.txt?sid=" + d.sessionId
+	path := "/network.txt?sid=" + d.sessionID
 	n, err := d.get(path, "", "")
 	if err != nil {
 		return empty, errors.Wrap(err, "Error during GetGeneralInformation request")
@@ -237,7 +237,7 @@ func (d *DvLIRClient) GetSystemInformation() (SystemInfo, error) {
 		return empty, &NotValidError{}
 	}
 
-	path := "/system.txt?sid=" + d.sessionId
+	path := "/system.txt?sid=" + d.sessionID
 	s, err := d.get(path, "", "")
 	if err != nil {
 		return empty, errors.Wrap(err, "Error during GetSystemInformation request")
@@ -277,7 +277,7 @@ func (d *DvLIRClient) Blink(blink int, pause int) (response int, err error) {
 	pauseE := url.QueryEscape(strconv.Itoa(pause))
 	blinkE := url.QueryEscape(strconv.Itoa(blink))
 
-	path := "/blink.cmd?sid=" + d.sessionId + "&ledPause=" + pauseE + "&ledBlink=" + blinkE
+	path := "/blink.cmd?sid=" + d.sessionID + "&ledPause=" + pauseE + "&ledBlink=" + blinkE
 	resp, err := d.get(path, "", "")
 	if err != nil {
 		return 0, errors.Wrap(err, "Error during Blink request")
@@ -308,7 +308,7 @@ func (d *DvLIRClient) NTPServerTest(ntpName string) (int, error) {
 
 	ntpNameE := url.QueryEscape(ntpName)
 
-	path := "/ntpTest.cmd?sid=" + d.sessionId + "&ntpName=" + ntpNameE
+	path := "/ntpTest.cmd?sid=" + d.sessionID + "&ntpName=" + ntpNameE
 	c, err := d.get(path, "", "")
 	if err != nil {
 		return 0, errors.Wrap(err, "Error during Blink request")
@@ -353,7 +353,7 @@ func (d *DvLIRClient) ChangeNetworkSettings(dhcp, ip, sub, gw, dns, ntpName, ntp
 	if !d.isValid() {
 		return "", &NotValidError{}
 	}
-	path := "/network.cmd?sid=" + d.sessionId
+	path := "/network.cmd?sid=" + d.sessionID
 
 	if dhcp != "" {
 		if switchCase(dhcp) {
@@ -434,7 +434,7 @@ func (d *DvLIRClient) ChangeSavingInterval(interval string) (string, error) {
 
 	intervalE := url.QueryEscape(interval)
 
-	path := "/system.cmd?sid=" + d.sessionId + "&interval=" + intervalE
+	path := "/system.cmd?sid=" + d.sessionID + "&interval=" + intervalE
 	res, err := d.get(path, "", "")
 	if err != nil {
 		return "", errors.Wrap(err, "Error during ChangeSavingInterval request")
@@ -468,7 +468,7 @@ func (d *DvLIRClient) AllowResetWithPwd(allow string) (string, error) {
 
 	allowE := url.QueryEscape(allow)
 
-	path := "/system.cmd?sid=" + d.sessionId + "&allowResetWithPwd=" + allowE
+	path := "/system.cmd?sid=" + d.sessionID + "&allowResetWithPwd=" + allowE
 	res, err := d.get(path, "", "")
 	if err != nil {
 		return "", errors.Wrap(err, "Error during AllowResetWithPwd request")
@@ -497,7 +497,7 @@ func (d *DvLIRClient) ResetAll(rCode string) (string, error) {
 
 	rCodeE := url.QueryEscape(rCode)
 
-	path := "/system.cmd?sid=" + d.sessionId + "&resetAll=" + rCodeE
+	path := "/system.cmd?sid=" + d.sessionID + "&resetAll=" + rCodeE
 	res, err := d.get(path, "", "")
 	if err != nil {
 		return "", errors.Wrap(err, "Error during ResetAll request")
@@ -526,7 +526,7 @@ func (d *DvLIRClient) DeleteData(code string) (string, error) {
 
 	dCodeE := url.QueryEscape(code)
 
-	path := "/system.cmd?sid=" + d.sessionId + "&resetData=" + dCodeE
+	path := "/system.cmd?sid=" + d.sessionID + "&resetData=" + dCodeE
 	res, err := d.get(path, "", "")
 	if err != nil {
 		return "", errors.Wrap(err, "Error during DeleteData request")
@@ -552,7 +552,7 @@ func (d *DvLIRClient) ChangePassword(pw1, pw2, pw3 string) (string, error) {
 	if !d.isValid() {
 		return "", &NotValidError{}
 	}
-	path := "http://" + d.ipAddress + "/password.cmd?sid=" + d.sessionId
+	path := "http://" + d.ipAddress + "/password.cmd?sid=" + d.sessionID
 
 	Pw1 := url.QueryEscape(pw1)
 	Pw2 := url.QueryEscape(pw2)
@@ -603,7 +603,7 @@ func (d *DvLIRClient) UploadFirmware(filePath string) (string, error) {
 		return "", &NotValidError{}
 	}
 
-	path := "http://" + d.ipAddress + "/upload.cmd?sid=" + d.sessionId
+	path := "http://" + d.ipAddress + "/upload.cmd?sid=" + d.sessionID
 
 	header := make(map[string]string)
 	header["Content-Type"] = "multipart/form-data"
