@@ -1,5 +1,8 @@
 # dvlir-restapi-go-client
 
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/inexio/dvlir-restapi-go-client)](https://goreportcard.com/report/github.com/inexio/dvlir-restapi-go-client)
+
 ## Description
 
 Golang package - client library for the [Device GmbH DvLIR IP network readout adapter](https://www.device.de/index.php/produkte/smart-metering/dvlir) REST API.
