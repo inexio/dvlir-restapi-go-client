@@ -136,6 +136,10 @@ func (d *DvLIRClient) GetMomentaryValues() (MomentaryValues, error) {
 
 	val := d.HashTagSplitter(v.String())
 
+	for ns := 8 - len(val[0]); ns > 0; ns-- {
+		val[0] = "0" + val[0]
+	}
+
 	values.MeterNumber = val[0]
 	values.OBISNum = val[1]
 	values.MomentaryPower = val[2]
@@ -177,6 +181,11 @@ func (d *DvLIRClient) GetGeneralInformation() (GeneralInfo, error) {
 
 	information := d.HashTagSplitter(i.String())
 	info.ServerIDMeter = information[0]
+
+	for ns := 8 - len(information[1]); ns > 0; ns-- {
+		information[1] = "0" + information[1]
+	}
+
 	info.MeterNumber = information[1]
 	info.ManufacturerCode = information[2]
 	info.IPAddress = information[3]

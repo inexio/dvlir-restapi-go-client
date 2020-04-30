@@ -168,6 +168,11 @@ func (d *DvLIRClient) DataLineConversion(input string) DataLine {
 	line.Date = inputSlice[1]
 	line.Time = inputSlice[2]
 	line.DvLIRSn = inputSlice[3]
+
+	for ns := 8 - len(inputSlice[4]); ns > 0; ns-- {
+		inputSlice[4] = "0" + inputSlice[4]
+	}
+
 	line.MeterNumber = inputSlice[4]
 	line.OneEightZero = inputSlice[5]
 	line.OneEightOne = inputSlice[6]
